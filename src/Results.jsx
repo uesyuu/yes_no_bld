@@ -2,11 +2,14 @@ import {
     AppBar,
     Box,
     Button,
-    Table, TableBody,
+    Tab,
+    Table,
+    TableBody,
     TableCell,
     TableContainer,
     TableHead,
     TableRow,
+    Tabs,
     Toolbar,
     Typography
 } from "@mui/material";
@@ -24,11 +27,17 @@ const Results = () => {
         padding: '20px',
         maxWidth: '500px'
     }))
+
     const StyledTableContainer = styled(TableContainer)(({theme}) => ({
+        width: '300px'
+    }))
+
+    const StyledTab = styled(Tab)(({theme}) => ({
         minWidth: '50px'
     }))
 
-    const [ storageData, setStorageData ] = useState([])
+    const [storageData, setStorageData] = useState([])
+    const [tabValue, setTabValue] = useState(0)
 
     useEffect(() => {
         if (localStorage.storageData) {
@@ -38,6 +47,10 @@ const Results = () => {
             }
         }
     }, [])
+
+    const handleTabChanged = (event, newValue) => {
+        setTabValue(newValue)
+    }
 
     return (
         <div>
@@ -55,27 +68,60 @@ const Results = () => {
                 <Box display={"flex"} justifyContent={"center"}>
                     <Typography variant='h3'>記録</Typography>
                 </Box>
-                <StyledTableContainer>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align='center'>ランク</TableCell>
-                                <TableCell align='center'>タイム(秒)</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {storageData
-                                .sort((a, b) => a - b)
-                                .slice(0, 10)
-                                .map((item, index) =>
-                                    <TableRow key={index}>
-                                        <TableCell align='center'>{index + 1}位</TableCell>
-                                        <TableCell align='center'>{timeLib.format(item)}</TableCell>
+                <Box display={"flex"} justifyContent={"center"}>
+                    <Tabs value={tabValue} onChange={handleTabChanged} centered>
+                        <StyledTab label="タイム"/>
+                        <StyledTab label="質問回数"/>
+                    </Tabs>
+                </Box>
+                <Box display={"flex"} justifyContent={"center"}>
+                    <div hidden={tabValue !== 0}>
+                        <StyledTableContainer>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align='center'>ランク</TableCell>
+                                        <TableCell align='center'>タイム</TableCell>
                                     </TableRow>
-                                )}
-                        </TableBody>
-                    </Table>
-                </StyledTableContainer>
+                                </TableHead>
+                                <TableBody>
+                                    {storageData
+                                        .sort((a, b) => a[0] - b[0])
+                                        .slice(0, 10)
+                                        .map((item, index) =>
+                                            <TableRow key={index}>
+                                                <TableCell align='center'>{index + 1}位</TableCell>
+                                                <TableCell align='center'>{timeLib.format(item[0])}秒</TableCell>
+                                            </TableRow>
+                                        )}
+                                </TableBody>
+                            </Table>
+                        </StyledTableContainer>
+                    </div>
+                    <div hidden={tabValue !== 1}>
+                        <StyledTableContainer>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align='center'>ランク</TableCell>
+                                        <TableCell align='center'>質問回数</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {storageData
+                                        .sort((a, b) => a[1] - b[1])
+                                        .slice(0, 10)
+                                        .map((item, index) =>
+                                            <TableRow key={index}>
+                                                <TableCell align='center'>{index + 1}位</TableCell>
+                                                <TableCell align='center'>{item[1]}回</TableCell>
+                                            </TableRow>
+                                        )}
+                                </TableBody>
+                            </Table>
+                        </StyledTableContainer>
+                    </div>
+                </Box>
             </StyledContainer>
         </div>
     )

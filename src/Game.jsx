@@ -217,11 +217,16 @@ const Game = (props) => {
         setTime(0)
         setRealTime(0)
         setStartDateTime(0)
+        setScramble("")
         setMySolution([])
+        setRotationList([])
+        setFaceletList([])
+        setSelectedStickerNum(0)
         setIsCorrectDialogOpen(false)
         setIsFailureDialogOpen(false)
         setYesNoAnswer("")
-        // TODO ほかも初期化
+        setTabValue(0)
+        setQuestionCount(0)
         makeScramble()
         startTimer()
     }
@@ -262,7 +267,6 @@ const Game = (props) => {
 
     const addMove = (move) => {
         setMySolution((solution) => solution.concat(move))
-        console.log("addMove", move)
     }
 
     const removeMove = () => {
@@ -310,7 +314,7 @@ const Game = (props) => {
             stopTimer()
             const realTimeTmp = (new Date().getTime() - startDateTime) / 1000
             const storageDataTmp = [...storageData]
-            storageDataTmp.push(realTimeTmp)
+            storageDataTmp.push([realTimeTmp, questionCount])
             localStorage.setItem('storageData', JSON.stringify(storageDataTmp))
             setRealTime(realTimeTmp)
             setStorageData(storageDataTmp)
@@ -395,7 +399,7 @@ const Game = (props) => {
                 </Box>
                 <Box display={"flex"} justifyContent={"center"}>
                     <Tabs value={tabValue} onChange={handleTabChanged} centered>
-                        <StyledTab label="基本記号"/>
+                        <StyledTab label="基本"/>
                         <StyledTab label="二層回し"/>
                         <StyledTab label="スライス"/>
                         <StyledTab label="持ち替え"/>
