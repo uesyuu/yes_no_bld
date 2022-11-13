@@ -184,6 +184,7 @@ const Game = (props) => {
     const [incorrectMessage, setIncorrectMessage] = useState(null)
     const [storageData, setStorageData] = useState([])
     const [tabValue, setTabValue] = useState(0)
+    const [questionCount, setQuestionCount] = useState(0)
 
     useEffect(() => {
         if (localStorage.storageData) {
@@ -219,6 +220,8 @@ const Game = (props) => {
         setMySolution([])
         setIsCorrectDialogOpen(false)
         setIsFailureDialogOpen(false)
+        setYesNoAnswer("")
+        // TODO ほかも初期化
         makeScramble()
         startTimer()
     }
@@ -283,9 +286,23 @@ const Game = (props) => {
         setIsColorSelectDialogOpen(true)
     }
 
+    const handleDialogStickerClose = () => {
+        setIsStickerSelectDialogOpen(false)
+    }
+
     const handleDialogColorClick = (colorNum) => {
         setIsColorSelectDialogOpen(false)
+        setQuestionCount((count) => count + 1)
         setYesNoAnswer(`質問: ${faceletConversionList[selectedStickerNum]}の色は${colorConversionList[colorNum][1]}ですか？ 答え: ${faceletList[selectedStickerNum] === colorConversionList[colorNum][0] ? "Yes!" : "No!"}`)
+    }
+
+    const handleDialogColorClose = () => {
+        setIsColorSelectDialogOpen(false)
+    }
+
+    const askQuestion = () => {
+        setIsStickerSelectDialogOpen(true)
+        setYesNoAnswer("")
     }
 
     const judgeSolution = () => {
@@ -370,7 +387,7 @@ const Game = (props) => {
                 {/*</StyledInputContent>*/}
                 <Box display={"flex"} justifyContent={"center"}>
                     <StyledButton variant='contained' color='success' width='120px'
-                                  onClick={() => setIsStickerSelectDialogOpen(true)}>質問する</StyledButton>
+                                  onClick={askQuestion}>質問する</StyledButton>
                     <StyledButton variant='contained' color='primary' width='120px'
                                   onClick={() => addMove("n")}>改行する</StyledButton>
                     <StyledButton variant='contained' color='error' width='120px'
@@ -399,7 +416,7 @@ const Game = (props) => {
                     </div>
                 </Box>
             </StyledContainer>
-            <Dialog open={isStickerSelectDialogOpen}>
+            <Dialog open={isStickerSelectDialogOpen} onClose={handleDialogStickerClose}>
                 <DialogTitle>質問したいステッカーを選んでください</DialogTitle>
                 <DialogContent>
                     <div style={{width: "400px", overflow: "scroll"}}>
@@ -762,7 +779,7 @@ const Game = (props) => {
                     </div>
                 </DialogContent>
             </Dialog>
-            <Dialog open={isColorSelectDialogOpen}>
+            <Dialog open={isColorSelectDialogOpen} onClose={handleDialogColorClose}>
                 <DialogTitle>予想する色を選んでください</DialogTitle>
                 <DialogContent>
                     {/*{colorConversionList.map((color, index) =>*/}
@@ -795,6 +812,7 @@ const Game = (props) => {
                     <DialogContentText align={"center"}>
                         お見事!<br/>
                         かかった時間: {timeLib.format(realTime)}<br/>
+                        質問回数: {questionCount}回<br/>
                         <CubePlayer
                             scramble={scramble + " " + solutionListToString(mySolutionWithoutNewLine(mySolution))}
                         /><br/>
@@ -805,7 +823,8 @@ const Game = (props) => {
                         <TwitterShareButton
                             url={"Yes/No BLDを成功させました！\n"
                                 + `タイム: ${timeLib.format(realTime)}\n`
-                                + 'https://URL #YesNoBLD'}>
+                                + `質問回数: ${questionCount}回\n`
+                                + 'https://uesyuu.github.io/yes_no_bld #YesNoBLD'}>
                             <Typography variant='body2'>Twitterでシェア</Typography>
                         </TwitterShareButton>
                     </Button>
@@ -823,6 +842,7 @@ const Game = (props) => {
                     <DialogContentText align={"center"}>
                         残念…<br/>
                         かかった時間: {timeLib.format(realTime)}<br/>
+                        質問回数: {questionCount}回<br/>
                         <CubePlayer
                             scramble={scramble + " " + solutionListToString(mySolutionWithoutNewLine(mySolution))}
                         /><br/>
