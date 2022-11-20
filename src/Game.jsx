@@ -157,10 +157,10 @@ const Game = (props) => {
     }, [])
 
     useEffect(() => {
-        const [newRotationLessSolution, newRotationList] = algUtil.makeRotationLessAlg(mySolutionListWithoutNewLine(mySolutionList))
+        const [newRotationLessSolutionList, newRotationList] = algUtil.makeRotationLessAlg(mySolutionListWithoutNewLine(mySolutionList))
         setRotationList(newRotationList)
 
-        moveCube(newRotationLessSolution)
+        moveCube(newRotationLessSolutionList)
     }, [mySolutionList])
 
     useEffect(() => {
@@ -350,12 +350,12 @@ const Game = (props) => {
                 <StyledInputContent display={"flex"}>
                     <Typography>自分の回答: <br/>{solutionListToStringWithNewLine(mySolutionList)}</Typography>
                 </StyledInputContent>
-                <StyledInputContent display={"flex"}>
-                    <Typography>スクランブル: {scramble}</Typography>
-                </StyledInputContent>
-                <StyledInputContent display={"flex"}>
-                    <Typography>faceletList: {faceletList.join("")}</Typography>
-                </StyledInputContent>
+                {/*<StyledInputContent display={"flex"}>*/}
+                {/*    <Typography>スクランブル: {scramble}</Typography>*/}
+                {/*</StyledInputContent>*/}
+                {/*<StyledInputContent display={"flex"}>*/}
+                {/*    <Typography>faceletList: {faceletList.join("")}</Typography>*/}
+                {/*</StyledInputContent>*/}
                 <Box display={"flex"} justifyContent={"center"}>
                     <StyledButton variant='contained' color='success' width='120px'
                                   onClick={askQuestion}>質問する</StyledButton>

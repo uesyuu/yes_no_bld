@@ -1,4 +1,4 @@
-const algUtil = (function() {
+const algUtil = (function () {
     let faceList = ["U", "R", "F", "D", "L", "B"]
     const rotateX = [2, 1, 3, 5, 4, 0]
     const rotateXPrime = [5, 1, 0, 2, 4, 3]
@@ -55,52 +55,79 @@ const algUtil = (function() {
 
     const makeRotationLessAlg = (notationList) => {
         let currentFaceList = [0, 1, 2, 3, 4, 5]
-        const scrambleList = convertAlgToDefaultNotationAndRotation(notationList)
-        const resultScrambleList = []
+        const modifiedNotationList = convertAlgToDefaultNotationAndRotation(notationList)
+        const resultNotationList = []
         const resultRotationList = []
-        for (let i = 0; i < scrambleList.length; i++) {
-            if (scrambleList[i] === "x") {
+        for (let i = 0; i < modifiedNotationList.length; i++) {
+            if (modifiedNotationList[i] === "x") {
                 currentFaceList = rotate(currentFaceList, rotateX)
-                resultRotationList.push(scrambleList[i])
-            } else if (scrambleList[i] === "x'") {
+                resultRotationList.push(modifiedNotationList[i])
+            } else if (modifiedNotationList[i] === "x'") {
                 currentFaceList = rotate(currentFaceList, rotateXPrime)
-                resultRotationList.push(scrambleList[i])
-            } else if (scrambleList[i] === "x2") {
+                resultRotationList.push(modifiedNotationList[i])
+            } else if (modifiedNotationList[i] === "x2") {
                 currentFaceList = rotate(currentFaceList, rotateX2)
-                resultRotationList.push(scrambleList[i])
-            } else if (scrambleList[i] === "y") {
+                resultRotationList.push(modifiedNotationList[i])
+            } else if (modifiedNotationList[i] === "y") {
                 currentFaceList = rotate(currentFaceList, rotateY)
-                resultRotationList.push(scrambleList[i])
-            } else if (scrambleList[i] === "y'") {
+                resultRotationList.push(modifiedNotationList[i])
+            } else if (modifiedNotationList[i] === "y'") {
                 currentFaceList = rotate(currentFaceList, rotateYPrime)
-                resultRotationList.push(scrambleList[i])
-            } else if (scrambleList[i] === "y2") {
+                resultRotationList.push(modifiedNotationList[i])
+            } else if (modifiedNotationList[i] === "y2") {
                 currentFaceList = rotate(currentFaceList, rotateY2)
-                resultRotationList.push(scrambleList[i])
-            } else if (scrambleList[i] === "z") {
+                resultRotationList.push(modifiedNotationList[i])
+            } else if (modifiedNotationList[i] === "z") {
                 currentFaceList = rotate(currentFaceList, rotateZ)
-                resultRotationList.push(scrambleList[i])
-            } else if (scrambleList[i] === "z'") {
+                resultRotationList.push(modifiedNotationList[i])
+            } else if (modifiedNotationList[i] === "z'") {
                 currentFaceList = rotate(currentFaceList, rotateZPrime)
-                resultRotationList.push(scrambleList[i])
-            } else if (scrambleList[i] === "z2") {
+                resultRotationList.push(modifiedNotationList[i])
+            } else if (modifiedNotationList[i] === "z2") {
                 currentFaceList = rotate(currentFaceList, rotateZ2)
-                resultRotationList.push(scrambleList[i])
+                resultRotationList.push(modifiedNotationList[i])
             } else {
-                const currentNotation = scrambleList[i].split("")
+                const currentNotation = modifiedNotationList[i].split("")
                 let resultNotation = ""
                 if (currentNotation.length === 1) {
                     resultNotation = faceList[currentFaceList[notationToIndex(currentNotation[0])]]
                 } else if (currentNotation.length === 2) {
                     resultNotation = faceList[currentFaceList[notationToIndex(currentNotation[0])]] + currentNotation[1]
                 }
-                resultScrambleList.push(resultNotation)
+                resultNotationList.push(resultNotation)
             }
         }
-        return [resultScrambleList, resultRotationList]
+        return [resultNotationList, resultRotationList]
     }
 
     const notationConversionList = [
+        ["U", "U"],
+        ["U'", "U'"],
+        ["U2", "U2"],
+        ["D", "D"],
+        ["D'", "D'"],
+        ["D2", "D2"],
+        ["R", "R"],
+        ["R'", "R'"],
+        ["R2", "R2"],
+        ["L", "L"],
+        ["L'", "L'"],
+        ["L2", "L2"],
+        ["F", "F"],
+        ["F'", "F'"],
+        ["F2", "F2"],
+        ["B", "B"],
+        ["B'", "B'"],
+        ["B2", "B2"],
+        ["x", "x"],
+        ["x'", "x'"],
+        ["x2", "x2"],
+        ["y", "y"],
+        ["y'", "y'"],
+        ["y2", "y2"],
+        ["z", "z"],
+        ["z'", "z'"],
+        ["z2", "z2"],
         ["M", "R L' x'"],
         ["M'", "R' L x"],
         ["M2", "R2 L2 x2"],
@@ -133,17 +160,8 @@ const algUtil = (function() {
     const convertAlgToDefaultNotationAndRotation = (notationList) => {
         const resultNotationList = []
         for (let i = 0; i < notationList.length; i++) {
-            let flag = true
-            for (let j = 0; j < notationConversionList.length; j++) {
-                if (notationList[i] === notationConversionList[j][0]) {
-                    resultNotationList.push(notationConversionList[j][1])
-                    flag = false
-                    break
-                }
-            }
-            if (flag) {
-                resultNotationList.push(notationList[i])
-            }
+            const foundNotation = notationConversionList.find((pair) => pair[0] === notationList[i])
+            resultNotationList.push(foundNotation[1])
         }
         return resultNotationList.join(" ").split(" ")
     }

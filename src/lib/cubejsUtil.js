@@ -1,4 +1,4 @@
-const cubeJsUtil = (function() {
+const cubeJsUtil = (function () {
 
     const faceletConversionList = [
         ["x", [
