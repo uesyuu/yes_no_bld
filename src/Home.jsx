@@ -1,26 +1,26 @@
 import {AppBar, Box, Button, Toolbar, Typography} from "@mui/material";
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 
-const Home = (props) => {
+const Home = () => {
 
     const navigate = useNavigate()
 
-    const StyledTitleBox = styled(Box)(({theme}) => ({
+    const StyledTitleBox = styled(Box)(() => ({
         padding: '20px 0',
     }))
 
-    const StyledContainer = styled(Box)(({theme}) => ({
+    const StyledContainer = styled(Box)(() => ({
         margin: '0 auto',
         padding: '20px',
         maxWidth: '500px'
     }))
 
-    const StyledLink = styled(Box)(({theme}) => ({
+    const StyledBlock = styled(Box)(() => ({
         margin: '20px 0'
     }))
 
-    const StyledButton = styled(Button)(({theme}) => ({
+    const StyledButton = styled(Button)(() => ({
         width: '200px'
     }))
 
@@ -35,21 +35,21 @@ const Home = (props) => {
                 <StyledTitleBox display={"flex"} justifyContent={"center"}>
                     <Typography variant='h3' align='center'>Yes/No BLD</Typography>
                 </StyledTitleBox>
-                <StyledLink display={"flex"} justifyContent={"center"}>
+                <StyledBlock display={"flex"} justifyContent={"center"}>
                     <StyledButton variant='contained' size='large' onClick={() => navigate("/game")}>
                         スタート
                     </StyledButton>
-                </StyledLink>
-                <StyledLink display={"flex"} justifyContent={"center"}>
+                </StyledBlock>
+                <StyledBlock display={"flex"} justifyContent={"center"}>
                     <StyledButton variant='contained' size='large' onClick={() => navigate("/about")}>
                         遊び方
                     </StyledButton>
-                </StyledLink>
-                <StyledLink display={"flex"} justifyContent={"center"}>
+                </StyledBlock>
+                <StyledBlock display={"flex"} justifyContent={"center"}>
                     <StyledButton variant='contained' size='large' onClick={() => navigate("/results")}>
                         記録
                     </StyledButton>
-                </StyledLink>
+                </StyledBlock>
             </StyledContainer>
         </div>
     )

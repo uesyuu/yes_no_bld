@@ -2,17 +2,17 @@ import {AppBar, Box, Button, Toolbar, Typography} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import {useNavigate} from "react-router-dom";
 
-const About = (props) => {
+const About = () => {
 
     const navigate = useNavigate()
 
-    const StyledContainer = styled(Box)(({theme}) => ({
+    const StyledContainer = styled(Box)(() => ({
         margin: '0 auto',
         padding: '20px',
         maxWidth: '500px'
     }))
 
-    const StyledLink = styled(Box)(({theme}) => ({
+    const StyledBlock = styled(Box)(() => ({
         margin: '20px 0'
     }))
 
@@ -32,18 +32,18 @@ const About = (props) => {
                 <Box display={"flex"} justifyContent={"center"}>
                     <Typography variant='h3'>遊び方</Typography>
                 </Box>
-                <StyledLink display={"flex"} justifyContent={"center"}>
+                <StyledBlock display={"flex"}>
                     <Typography variant='body1'>
                         Yes/No BLDとは、キューブが見えない状態で、YesかNoかで答えられる質問の答えのみを頼りに手探りでキューブを解いていく遊びです<br/>
                         このアプリでは、「UFRのステッカーの色は白ですか？」といったステッカーの色に関するYes/No質問のみでキューブを解く必要があります<br/>
                         <br/>
                         解説動画<br/>
                     </Typography>
-                </StyledLink>
-                <StyledLink display={"flex"} justifyContent={"center"}>
+                </StyledBlock>
+                <StyledBlock display={"flex"} justifyContent={"center"}>
                     <Typography variant='h5'>遊び方解説</Typography>
-                </StyledLink>
-                <StyledLink display={"flex"} justifyContent={"center"}>
+                </StyledBlock>
+                <StyledBlock display={"flex"}>
                     <Typography variant='body1'>
                         ホーム画面でスタートボタンを押すとゲームが開始します<br/>
                         ゲームは2つのフェーズに分けられます<br/>
@@ -52,11 +52,11 @@ const About = (props) => {
                             <li>回答フェーズ</li>
                         </ul>
                     </Typography>
-                </StyledLink>
-                <StyledLink display={"flex"}>
+                </StyledBlock>
+                <StyledBlock display={"flex"}>
                     <Typography variant='h6' align='left'>質問フェーズ</Typography>
-                </StyledLink>
-                <StyledLink display={"flex"} justifyContent={"center"}>
+                </StyledBlock>
+                <StyledBlock display={"flex"}>
                     <Typography variant='body1'>
                         質問フェーズではアプリにステッカーの色に関する質問を投げかけます<br/>
                         <br/>
@@ -68,11 +68,11 @@ const About = (props) => {
                         色を選ぶとゲーム画面に戻り、選んだステッカーが選んだ色であるかの答えがYes/Noで表示されます<br/>
                         この情報をもとにキューブを解いていきましょう<br/>
                     </Typography>
-                </StyledLink>
-                <StyledLink display={"flex"}>
+                </StyledBlock>
+                <StyledBlock display={"flex"}>
                     <Typography variant='h6' align='left'>回答フェーズ</Typography>
-                </StyledLink>
-                <StyledLink display={"flex"} justifyContent={"center"}>
+                </StyledBlock>
+                <StyledBlock display={"flex"}>
                     <Typography variant='body1'>
                         回答フェーズでは、予想するキューブの解法を入力していきます<br/>
                         <br/>
@@ -84,14 +84,14 @@ const About = (props) => {
                         完成している場合、成功ダイアログが表示されます<br/>
                         完成していないば場合は不正解と表示され、ゲームが続行されます<br/>
                     </Typography>
-                </StyledLink>
-                <StyledLink display={"flex"} justifyContent={"center"}>
+                </StyledBlock>
+                <StyledBlock display={"flex"} justifyContent={"center"}>
                     <Typography variant='h5'>用語</Typography>
-                </StyledLink>
-                <StyledLink display={"flex"}>
+                </StyledBlock>
+                <StyledBlock display={"flex"}>
                     <Typography variant='h6' align='left'>回転記号</Typography>
-                </StyledLink>
-                <StyledLink display={"flex"}>
+                </StyledBlock>
+                <StyledBlock display={"flex"}>
                     <Typography variant='body1'>
                         ルービックキューブの回転を記号で表したものです<br/>
                         <ul>
@@ -102,9 +102,10 @@ const About = (props) => {
                         </ul>
                         を意味します。
                         回答はこの記号を使って答えてください。<br/>
-                        参考: <a href="https://cubevoyage.net/how-to-solve/intermediate/notation/">回転記号とは？ - Cube Voyage -</a>
+                        参考: <a href="https://cubevoyage.net/how-to-solve/intermediate/notation/">回転記号とは？ - Cube
+                        Voyage -</a>
                     </Typography>
-                </StyledLink>
+                </StyledBlock>
             </StyledContainer>
         </div>
     )

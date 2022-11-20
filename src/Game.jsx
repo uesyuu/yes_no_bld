@@ -28,13 +28,13 @@ const Game = (props) => {
 
     const navigate = useNavigate()
 
-    const StyledContainer = styled(Box)(({theme}) => ({
+    const StyledContainer = styled(Box)(() => ({
         margin: '0 auto',
         padding: '20px',
         maxWidth: '500px'
     }))
 
-    const StyledInputContent = styled(Box)(({theme}) => ({
+    const StyledInputContent = styled(Box)(() => ({
         backgroundColor: "lightgray",
         padding: '5px 5px',
     }))
@@ -52,70 +52,26 @@ const Game = (props) => {
         textTransform: 'none',
     }))
 
-    const StyledErrorBox = styled(Box)(({theme}) => ({
+    const StyledErrorBox = styled(Box)(() => ({
         margin: '10px 0',
         height: '20px'
     }))
 
-    const StyledErrorDisplay = styled(Typography)(({theme}) => ({
+    const StyledErrorDisplay = styled(Typography)(() => ({
         color: "red"
     }))
 
-    const StyledAnswerBox = styled(Box)(({theme}) => ({
+    const StyledAnswerBox = styled(Box)(() => ({
         margin: '10px 0',
         height: '20px'
     }))
 
-    const StyledTab = styled(Tab)(({theme}) => ({
+    const StyledTab = styled(Tab)(() => ({
         minWidth: '50px'
     }))
 
-    const StyledWhiteButton = styled(Button)(({theme}) => ({
+    const StyledColorButton = styled(Button)(() => ({
         margin: '5px 5px',
-        backgroundColor: 'white',
-        '&:hover': {
-            backgroundColor: 'white',
-        },
-    }))
-
-    const StyledYellowButton = styled(Button)(({theme}) => ({
-        margin: '5px 5px',
-        backgroundColor: 'yellow',
-        '&:hover': {
-            backgroundColor: 'yellow',
-        },
-    }))
-
-    const StyledGreenButton = styled(Button)(({theme}) => ({
-        margin: '5px 5px',
-        backgroundColor: 'green',
-        '&:hover': {
-            backgroundColor: 'green',
-        },
-    }))
-
-    const StyledBlueButton = styled(Button)(({theme}) => ({
-        margin: '5px 5px',
-        backgroundColor: 'blue',
-        '&:hover': {
-            backgroundColor: 'blue',
-        },
-    }))
-
-    const StyledRedButton = styled(Button)(({theme}) => ({
-        margin: '5px 5px',
-        backgroundColor: 'red',
-        '&:hover': {
-            backgroundColor: 'red',
-        },
-    }))
-
-    const StyledOrangeButton = styled(Button)(({theme}) => ({
-        margin: '5px 5px',
-        backgroundColor: 'orange',
-        '&:hover': {
-            backgroundColor: 'orange',
-        },
     }))
 
     const notationList = [
@@ -158,12 +114,12 @@ const Game = (props) => {
     ]
 
     const colorConversionList = [
-        ["U", "白"],
-        ["D", "黄色"],
-        ["F", "緑"],
-        ["B", "青"],
-        ["R", "赤"],
-        ["L", "オレンジ"],
+        ["U", "白", "white", "black"],
+        ["D", "黄色", "yellow", "black"],
+        ["F", "緑", "green", "white"],
+        ["B", "青", "blue", "white"],
+        ["R", "赤", "red", "white"],
+        ["L", "オレンジ", "orange", "black"],
     ]
 
     const intervalRef = useRef(null);
@@ -171,7 +127,7 @@ const Game = (props) => {
     const [realTime, setRealTime] = useState(0);
     const [startDateTime, setStartDateTime] = useState(0);
     const [scramble, setScramble] = useState('');
-    const [mySolution, setMySolution] = useState([]);
+    const [mySolutionList, setMySolutionList] = useState([]);
     const [rotationList, setRotationList] = useState([]);
     const [cube, setCube] = useState(new Cube())
     const [faceletList, setFaceletList] = useState([])
@@ -201,11 +157,11 @@ const Game = (props) => {
     }, [])
 
     useEffect(() => {
-        const [newRotationLessSolution, newRotationList] = algUtil.makeRotationLessAlg(mySolutionWithoutNewLine(mySolution))
+        const [newRotationLessSolution, newRotationList] = algUtil.makeRotationLessAlg(mySolutionListWithoutNewLine(mySolutionList))
         setRotationList(newRotationList)
 
         moveCube(newRotationLessSolution)
-    }, [mySolution])
+    }, [mySolutionList])
 
     useEffect(() => {
         const faceletString = cube.asString()
@@ -218,7 +174,7 @@ const Game = (props) => {
         setRealTime(0)
         setStartDateTime(0)
         setScramble("")
-        setMySolution([])
+        setMySolutionList([])
         setRotationList([])
         setFaceletList([])
         setSelectedStickerNum(0)
@@ -261,16 +217,16 @@ const Game = (props) => {
         )
     }
 
-    const mySolutionWithoutNewLine = (solutionList) => {
+    const mySolutionListWithoutNewLine = (solutionList) => {
         return solutionList.filter(i => i !== "n")
     }
 
     const addMove = (move) => {
-        setMySolution((solution) => solution.concat(move))
+        setMySolutionList((solution) => solution.concat(move))
     }
 
     const removeMove = () => {
-        setMySolution((solution) => solution.slice(0, solution.length - 1))
+        setMySolutionList((solution) => solution.slice(0, solution.length - 1))
     }
 
     const moveCube = (newSolution) => {
@@ -354,6 +310,17 @@ const Game = (props) => {
         )
     }
 
+    const StickerCell = (props) => {
+        return <td
+            style={{
+                width: "30px",
+                height: "30px",
+                border: "1px solid black",
+                textAlign: "center"
+            }}
+            onClick={() => handleDialogStickerClick(props.num)}>{props.children}</td>
+    }
+
     return (
         <div>
             <AppBar position={"relative"}>
@@ -381,14 +348,14 @@ const Game = (props) => {
                                   onClick={giveUpGame}>降参する</StyledButton>
                 </Box>
                 <StyledInputContent display={"flex"}>
-                    <Typography>自分の回答: <br/>{solutionListToStringWithNewLine(mySolution)}</Typography>
+                    <Typography>自分の回答: <br/>{solutionListToStringWithNewLine(mySolutionList)}</Typography>
                 </StyledInputContent>
-                {/*<StyledInputContent display={"flex"}>*/}
-                {/*    <Typography>スクランブル: {scramble}</Typography>*/}
-                {/*</StyledInputContent>*/}
-                {/*<StyledInputContent display={"flex"}>*/}
-                {/*    <Typography>faceletList: {faceletList.join("")}</Typography>*/}
-                {/*</StyledInputContent>*/}
+                <StyledInputContent display={"flex"}>
+                    <Typography>スクランブル: {scramble}</Typography>
+                </StyledInputContent>
+                <StyledInputContent display={"flex"}>
+                    <Typography>faceletList: {faceletList.join("")}</Typography>
+                </StyledInputContent>
                 <Box display={"flex"} justifyContent={"center"}>
                     <StyledButton variant='contained' color='success' width='120px'
                                   onClick={askQuestion}>質問する</StyledButton>
@@ -428,355 +395,79 @@ const Game = (props) => {
                             <tbody>
                             <tr>
                                 <td rowSpan={3} colSpan={3}></td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(0)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(1)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(2)}>&nbsp;</td>
+                                <StickerCell num={0}></StickerCell>
+                                <StickerCell num={1}></StickerCell>
+                                <StickerCell num={2}></StickerCell>
                                 <td rowSpan={3} colSpan={6}></td>
                             </tr>
                             <tr>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(3)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(4)}>U
-                                </td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(5)}>&nbsp;</td>
+                                <StickerCell num={3}></StickerCell>
+                                <StickerCell num={4}>U</StickerCell>
+                                <StickerCell num={5}></StickerCell>
                             </tr>
                             <tr>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(6)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(7)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(8)}>&nbsp;</td>
+                                <StickerCell num={6}></StickerCell>
+                                <StickerCell num={7}></StickerCell>
+                                <StickerCell num={8}></StickerCell>
                             </tr>
                             <tr>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(36)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(37)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(38)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(18)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(19)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(20)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(9)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(10)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(11)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(45)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(46)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(47)}>&nbsp;</td>
+                                <StickerCell num={36}></StickerCell>
+                                <StickerCell num={37}></StickerCell>
+                                <StickerCell num={38}></StickerCell>
+                                <StickerCell num={18}></StickerCell>
+                                <StickerCell num={19}></StickerCell>
+                                <StickerCell num={20}></StickerCell>
+                                <StickerCell num={9}></StickerCell>
+                                <StickerCell num={10}></StickerCell>
+                                <StickerCell num={11}></StickerCell>
+                                <StickerCell num={45}></StickerCell>
+                                <StickerCell num={46}></StickerCell>
+                                <StickerCell num={47}></StickerCell>
                             </tr>
                             <tr>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(39)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(40)}>L
-                                </td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(41)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(21)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(22)}>F
-                                </td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(23)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(12)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(13)}>R
-                                </td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(14)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(48)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(49)}>B
-                                </td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(50)}>&nbsp;</td>
+                                <StickerCell num={39}></StickerCell>
+                                <StickerCell num={40}>L</StickerCell>
+                                <StickerCell num={41}></StickerCell>
+                                <StickerCell num={21}></StickerCell>
+                                <StickerCell num={22}>F</StickerCell>
+                                <StickerCell num={23}></StickerCell>
+                                <StickerCell num={12}></StickerCell>
+                                <StickerCell num={13}>R</StickerCell>
+                                <StickerCell num={14}></StickerCell>
+                                <StickerCell num={48}></StickerCell>
+                                <StickerCell num={49}>B</StickerCell>
+                                <StickerCell num={50}></StickerCell>
                             </tr>
                             <tr>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(42)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(43)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(44)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(24)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(25)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(26)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(15)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(16)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(17)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(51)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(52)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(53)}>&nbsp;</td>
+                                <StickerCell num={42}></StickerCell>
+                                <StickerCell num={43}></StickerCell>
+                                <StickerCell num={44}></StickerCell>
+                                <StickerCell num={24}></StickerCell>
+                                <StickerCell num={25}></StickerCell>
+                                <StickerCell num={26}></StickerCell>
+                                <StickerCell num={15}></StickerCell>
+                                <StickerCell num={16}></StickerCell>
+                                <StickerCell num={17}></StickerCell>
+                                <StickerCell num={51}></StickerCell>
+                                <StickerCell num={52}></StickerCell>
+                                <StickerCell num={53}></StickerCell>
                             </tr>
                             <tr>
                                 <td rowSpan={3} colSpan={3}></td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(27)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(28)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(29)}>&nbsp;</td>
+                                <StickerCell num={27}></StickerCell>
+                                <StickerCell num={28}></StickerCell>
+                                <StickerCell num={29}></StickerCell>
                                 <td rowSpan={3} colSpan={6}></td>
                             </tr>
                             <tr>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(30)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(31)}>D
-                                </td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(32)}>&nbsp;</td>
+                                <StickerCell num={30}></StickerCell>
+                                <StickerCell num={31}>D</StickerCell>
+                                <StickerCell num={32}></StickerCell>
                             </tr>
                             <tr>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(33)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(34)}>&nbsp;</td>
-                                <td style={{
-                                    width: "30px",
-                                    height: "30px",
-                                    border: "1px solid black",
-                                    textAlign: "center"
-                                }} onClick={() => handleDialogStickerClick(35)}>&nbsp;</td>
+                                <StickerCell num={33}></StickerCell>
+                                <StickerCell num={34}></StickerCell>
+                                <StickerCell num={35}></StickerCell>
                             </tr>
                             </tbody>
                         </table>
@@ -786,28 +477,22 @@ const Game = (props) => {
             <Dialog open={isColorSelectDialogOpen} onClose={handleDialogColorClose}>
                 <DialogTitle>予想する色を選んでください</DialogTitle>
                 <DialogContent>
-                    {/*{colorConversionList.map((color, index) =>*/}
-                    {/*    <Button onClick={() => handleDialogColorClick(index)} key={index}>{color[1]}</Button>*/}
-                    {/*)}*/}
-                    <StyledWhiteButton onClick={() => handleDialogColorClick(0)}>
-                        <span style={{color: 'black'}}>白</span>
-                    </StyledWhiteButton>
-                    <StyledYellowButton onClick={() => handleDialogColorClick(1)}>
-                        <span style={{color: 'black'}}>黄色</span>
-                    </StyledYellowButton>
-                    <StyledGreenButton onClick={() => handleDialogColorClick(2)}>
-                        <span style={{color: 'white'}}>緑</span>
-                    </StyledGreenButton>
-                    <br/>
-                    <StyledBlueButton onClick={() => handleDialogColorClick(3)}>
-                        <span style={{color: 'white'}}>青</span>
-                    </StyledBlueButton>
-                    <StyledRedButton onClick={() => handleDialogColorClick(4)}>
-                        <span style={{color: 'white'}}>赤</span>
-                    </StyledRedButton>
-                    <StyledOrangeButton onClick={() => handleDialogColorClick(5)}>
-                        <span style={{color: 'black'}}>オレンジ</span>
-                    </StyledOrangeButton>
+                    {colorConversionList.map((color, index) =>
+                        <span key={index}>
+                            <StyledColorButton
+                                sx={{
+                                    backgroundColor: color[2],
+                                    '&:hover': {
+                                        backgroundColor: color[2],
+                                    },
+                                }}
+                                onClick={() => handleDialogColorClick(index)}
+                            >
+                                <span style={{color: color[3]}}>{color[1]}</span>
+                            </StyledColorButton>
+                            {index === 2 ? <br/> : ""}
+                        </span>
+                    )}
                 </DialogContent>
             </Dialog>
             <Dialog open={isCorrectDialogOpen}>
@@ -818,7 +503,7 @@ const Game = (props) => {
                         かかった時間: {timeLib.format(realTime)}<br/>
                         質問回数: {questionCount}回<br/>
                         <CubePlayer
-                            scramble={scramble + " " + solutionListToString(mySolutionWithoutNewLine(mySolution))}
+                            scramble={scramble + " " + solutionListToString(mySolutionListWithoutNewLine(mySolutionList))}
                         /><br/>
                     </DialogContentText>
                 </DialogContent>
@@ -848,7 +533,7 @@ const Game = (props) => {
                         かかった時間: {timeLib.format(realTime)}<br/>
                         質問回数: {questionCount}回<br/>
                         <CubePlayer
-                            scramble={scramble + " " + solutionListToString(mySolutionWithoutNewLine(mySolution))}
+                            scramble={scramble + " " + solutionListToString(mySolutionListWithoutNewLine(mySolutionList))}
                         /><br/>
                     </DialogContentText>
                 </DialogContent>
