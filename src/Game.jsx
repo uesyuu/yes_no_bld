@@ -211,7 +211,7 @@ const Game = (props) => {
 
     const solutionListToStringWithNewLine = (solutionList) => {
         const solutionString = solutionList.join(" ")
-        const solutionStringList = solutionString.split(" n")
+        const solutionStringList = solutionString.split("n")
         return solutionStringList.map((item, index) =>
             <span key={index}>{item}<br/></span>
         )
