@@ -134,6 +134,32 @@ const About = () => {
                         />
                     </Typography>
                 </StyledBlock>
+                <StyledBlock display={"flex"}>
+                    <Typography variant='body1'>
+                        成功ダイアログにはタイムと質問回数が表示され、結果をツイートすることもできます。<br/>
+                    </Typography>
+                </StyledBlock>
+                <StyledBlock display={"flex"} justifyContent={"center"}>
+                    <Typography variant='body1'>
+                        <img
+                            src={`${process.env.PUBLIC_URL}/image/dialog_success.jpg`}
+                            width="300px"
+                        />
+                    </Typography>
+                </StyledBlock>
+                <StyledBlock display={"flex"}>
+                    <Typography variant='body1'>
+                        また、ホーム画面から記録画面に移ると、成功したときのタイムのランキングと質問回数のランキングが確認できます。<br/>
+                    </Typography>
+                </StyledBlock>
+                <StyledBlock display={"flex"} justifyContent={"center"}>
+                    <Typography variant='body1'>
+                        <img
+                            src={`${process.env.PUBLIC_URL}/image/result_ranking.jpg`}
+                            width="300px"
+                        />
+                    </Typography>
+                </StyledBlock>
                 <StyledBlock display={"flex"} justifyContent={"center"}>
                     <Typography variant='h5'>用語</Typography>
                 </StyledBlock>
