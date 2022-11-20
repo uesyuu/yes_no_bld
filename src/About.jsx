@@ -37,7 +37,6 @@ const About = () => {
                         Yes/No BLDとは、キューブが見えない状態で、YesかNoかで答えられる質問の答えのみを頼りに手探りでキューブを解いていく遊びです<br/>
                         このアプリでは、「UFRのステッカーの色は白ですか？」といったステッカーの色に関するYes/No質問のみでキューブを解く必要があります<br/>
                         <br/>
-                        解説動画<br/>
                     </Typography>
                 </StyledBlock>
                 <StyledBlock display={"flex"} justifyContent={"center"}>
@@ -62,11 +61,42 @@ const About = () => {
                         <br/>
                         質問するボタンを押すと、ステッカーを選ぶダイアログが表示されます<br/>
                         キューブの展開図が表示されるので、質問したいステッカーをクリックしましょう<br/>
+                    </Typography>
+                </StyledBlock>
+                <StyledBlock display={"flex"} justifyContent={"center"}>
+                    <Typography variant='body1'>
+                        <img
+                            src={`${process.env.PUBLIC_URL}/image/dialog_sticker.jpg`}
+                            width="300px"
+                        />
+                    </Typography>
+                </StyledBlock>
+                <StyledBlock display={"flex"}>
+                    <Typography variant='body1'>
                         ステッカーをクリックすると、色を選ぶダイアログが表示されます<br/>
                         適当な色を選びましょう<br/>
-                        <br/>
+                    </Typography>
+                </StyledBlock>
+                <StyledBlock display={"flex"} justifyContent={"center"}>
+                    <Typography variant='body1'>
+                        <img
+                            src={`${process.env.PUBLIC_URL}/image/dialog_color.jpg`}
+                            width="300px"
+                        />
+                    </Typography>
+                </StyledBlock>
+                <StyledBlock display={"flex"}>
+                    <Typography variant='body1'>
                         色を選ぶとゲーム画面に戻り、選んだステッカーが選んだ色であるかの答えがYes/Noで表示されます<br/>
                         この情報をもとにキューブを解いていきましょう<br/>
+                    </Typography>
+                </StyledBlock>
+                <StyledBlock display={"flex"} justifyContent={"center"}>
+                    <Typography variant='body1'>
+                        <img
+                            src={`${process.env.PUBLIC_URL}/image/yes_no_answer.jpg`}
+                            width="300px"
+                        />
                     </Typography>
                 </StyledBlock>
                 <StyledBlock display={"flex"}>
@@ -79,10 +109,29 @@ const About = () => {
                         画面下部に回転記号ボタンがあり入力ができます<br/>
                         タブを切り替えることで、二層回し、スライス、持ち替えの記号も入力できます<br/>
                         また、改行ボタンを押すことで表示される解法を改行、1文字削除ボタンを押すことで解法の末尾を削除できます<br/>
-                        <br/>
+                    </Typography>
+                </StyledBlock>
+                <StyledBlock display={"flex"} justifyContent={"center"}>
+                    <Typography variant='body1'>
+                        <img
+                            src={`${process.env.PUBLIC_URL}/image/notation_button.jpg`}
+                            width="300px"
+                        />
+                    </Typography>
+                </StyledBlock>
+                <StyledBlock display={"flex"}>
+                    <Typography variant='body1'>
                         キューブが完成したと思ったら、完成しました!ボタンを押してください<br/>
                         完成している場合、成功ダイアログが表示されます<br/>
-                        完成していないば場合は不正解と表示され、ゲームが続行されます<br/>
+                        完成していない場合は不正解と表示され、ゲームが続行されます<br/>
+                    </Typography>
+                </StyledBlock>
+                <StyledBlock display={"flex"} justifyContent={"center"}>
+                    <Typography variant='body1'>
+                        <img
+                            src={`${process.env.PUBLIC_URL}/image/finish_solve.jpg`}
+                            width="300px"
+                        />
                     </Typography>
                 </StyledBlock>
                 <StyledBlock display={"flex"} justifyContent={"center"}>
