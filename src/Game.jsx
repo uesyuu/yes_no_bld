@@ -174,6 +174,12 @@ const Game = (props) => {
         updateFaceletList(faceletString.split(""), rotationList)
     }, [cube])
 
+    useEffect(() => {
+        if (time >= 1 && isLoading) {
+            setIsLoading(false)
+        }
+    }, [time])
+
     const startGame = () => {
         setIsLoading(true)
         setTime(0)
@@ -191,7 +197,6 @@ const Game = (props) => {
         setQuestionCount(0)
         makeScramble()
         startTimer()
-        setIsLoading(false)
     }
 
     const startTimer = () => {
