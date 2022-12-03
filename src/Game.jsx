@@ -3,7 +3,7 @@ import {styled} from "@mui/material/styles";
 import {
     AppBar,
     Box,
-    Button,
+    Button, CircularProgress,
     Dialog,
     DialogActions,
     DialogContent,
@@ -74,6 +74,10 @@ const Game = (props) => {
         margin: '5px 5px',
     }))
 
+    const StyledProgressBox = styled(Box)(() => ({
+        marginTop: '20px'
+    }))
+
     const notationList = [
         ["U", "U'", "U2"],
         ["D", "D'", "D2"],
@@ -141,6 +145,7 @@ const Game = (props) => {
     const [storageData, setStorageData] = useState([])
     const [tabValue, setTabValue] = useState(0)
     const [questionCount, setQuestionCount] = useState(0)
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         if (localStorage.storageData) {
@@ -170,6 +175,7 @@ const Game = (props) => {
     }, [cube])
 
     const startGame = () => {
+        setIsLoading(true)
         setTime(0)
         setRealTime(0)
         setStartDateTime(0)
@@ -185,6 +191,7 @@ const Game = (props) => {
         setQuestionCount(0)
         makeScramble()
         startTimer()
+        setIsLoading(false)
     }
 
     const startTimer = () => {
@@ -328,65 +335,72 @@ const Game = (props) => {
                     <Typography>Yes/No BLD</Typography>
                 </Toolbar>
             </AppBar>
-            <StyledContainer maxWidth={"xs"} display={"flex"} flexDirection={"column"}>
-                <Box display={"flex"} justifyContent={"space-between"}>
-                    <Button variant='contained' onClick={() => navigate('/')}>
-                        戻る
-                    </Button>
-                    <Typography variant='h5'>{moment(time * 1000).format('mm:ss')}</Typography>
-                </Box>
-                <StyledErrorBox display={"flex"} justifyContent={"center"}>
-                    <StyledErrorDisplay>{incorrectMessage}</StyledErrorDisplay>
-                </StyledErrorBox>
-                <StyledAnswerBox display={"flex"} justifyContent={"center"}>
-                    <Typography>{yesNoAnswer}</Typography>
-                </StyledAnswerBox>
-                <Box display={"flex"} justifyContent={"center"}>
-                    <StyledButton variant='contained' color='primary' width='150px'
-                                  onClick={judgeSolution}>完成しました!</StyledButton>
-                    <StyledButton variant='contained' color='primary' width='120px'
-                                  onClick={giveUpGame}>降参する</StyledButton>
-                </Box>
-                <StyledInputContent display={"flex"}>
-                    <Typography>自分の回答: <br/>{solutionListToStringWithNewLine(mySolutionList)}</Typography>
-                </StyledInputContent>
-                {/*<StyledInputContent display={"flex"}>*/}
-                {/*    <Typography>スクランブル: {scramble}</Typography>*/}
-                {/*</StyledInputContent>*/}
-                {/*<StyledInputContent display={"flex"}>*/}
-                {/*    <Typography>faceletList: {faceletList.join("")}</Typography>*/}
-                {/*</StyledInputContent>*/}
-                <Box display={"flex"} justifyContent={"center"}>
-                    <StyledButton variant='contained' color='success' width='120px'
-                                  onClick={askQuestion}>質問する</StyledButton>
-                    <StyledButton variant='contained' color='primary' width='120px'
-                                  onClick={() => addMove("n")}>改行する</StyledButton>
-                    <StyledButton variant='contained' color='error' width='120px'
-                                  onClick={removeMove}>1文字削除</StyledButton>
-                </Box>
-                <Box display={"flex"} justifyContent={"center"}>
-                    <Tabs value={tabValue} onChange={handleTabChanged} centered>
-                        <StyledTab label="基本"/>
-                        <StyledTab label="二層回し"/>
-                        <StyledTab label="スライス"/>
-                        <StyledTab label="持ち替え"/>
-                    </Tabs>
-                </Box>
-                <Box display={"flex"} justifyContent={"center"}>
-                    <div hidden={tabValue !== 0}>
-                        {displayNotationList(notationList)}
-                    </div>
-                    <div hidden={tabValue !== 1}>
-                        {displayNotationList(notationDoubleList)}
-                    </div>
-                    <div hidden={tabValue !== 2}>
-                        {displayNotationList(notationSliceList)}
-                    </div>
-                    <div hidden={tabValue !== 3}>
-                        {displayNotationList(notationRotationList)}
-                    </div>
-                </Box>
-            </StyledContainer>
+            {!isLoading &&
+                <StyledContainer maxWidth={"xs"} display={"flex"} flexDirection={"column"}>
+                    <Box display={"flex"} justifyContent={"space-between"}>
+                        <Button variant='contained' onClick={() => navigate('/')}>
+                            戻る
+                        </Button>
+                        <Typography variant='h5'>{moment(time * 1000).format('mm:ss')}</Typography>
+                    </Box>
+                    <StyledErrorBox display={"flex"} justifyContent={"center"}>
+                        <StyledErrorDisplay>{incorrectMessage}</StyledErrorDisplay>
+                    </StyledErrorBox>
+                    <StyledAnswerBox display={"flex"} justifyContent={"center"}>
+                        <Typography>{yesNoAnswer}</Typography>
+                    </StyledAnswerBox>
+                    <Box display={"flex"} justifyContent={"center"}>
+                        <StyledButton variant='contained' color='primary' width='150px'
+                                      onClick={judgeSolution}>完成しました!</StyledButton>
+                        <StyledButton variant='contained' color='primary' width='120px'
+                                      onClick={giveUpGame}>降参する</StyledButton>
+                    </Box>
+                    <StyledInputContent display={"flex"}>
+                        <Typography>自分の回答: <br/>{solutionListToStringWithNewLine(mySolutionList)}</Typography>
+                    </StyledInputContent>
+                    {/*<StyledInputContent display={"flex"}>*/}
+                    {/*    <Typography>スクランブル: {scramble}</Typography>*/}
+                    {/*</StyledInputContent>*/}
+                    {/*<StyledInputContent display={"flex"}>*/}
+                    {/*    <Typography>faceletList: {faceletList.join("")}</Typography>*/}
+                    {/*</StyledInputContent>*/}
+                    <Box display={"flex"} justifyContent={"center"}>
+                        <StyledButton variant='contained' color='success' width='120px'
+                                      onClick={askQuestion}>質問する</StyledButton>
+                        <StyledButton variant='contained' color='primary' width='120px'
+                                      onClick={() => addMove("n")}>改行する</StyledButton>
+                        <StyledButton variant='contained' color='error' width='120px'
+                                      onClick={removeMove}>1文字削除</StyledButton>
+                    </Box>
+                    <Box display={"flex"} justifyContent={"center"}>
+                        <Tabs value={tabValue} onChange={handleTabChanged} centered>
+                            <StyledTab label="基本"/>
+                            <StyledTab label="二層回し"/>
+                            <StyledTab label="スライス"/>
+                            <StyledTab label="持ち替え"/>
+                        </Tabs>
+                    </Box>
+                    <Box display={"flex"} justifyContent={"center"}>
+                        <div hidden={tabValue !== 0}>
+                            {displayNotationList(notationList)}
+                        </div>
+                        <div hidden={tabValue !== 1}>
+                            {displayNotationList(notationDoubleList)}
+                        </div>
+                        <div hidden={tabValue !== 2}>
+                            {displayNotationList(notationSliceList)}
+                        </div>
+                        <div hidden={tabValue !== 3}>
+                            {displayNotationList(notationRotationList)}
+                        </div>
+                    </Box>
+                </StyledContainer>
+            }
+            {isLoading &&
+                <StyledProgressBox display={"flex"} justifyContent={"center"}>
+                    <CircularProgress />
+                </StyledProgressBox>
+            }
             <Dialog open={isStickerSelectDialogOpen} onClose={handleDialogStickerClose}>
                 <DialogTitle>質問したいステッカーを選んでください</DialogTitle>
                 <DialogContent>
