@@ -68,6 +68,7 @@ const About = () => {
                         <img
                             src={`${process.env.PUBLIC_URL}/image/dialog_sticker.jpg`}
                             width="300px"
+                            alt=""
                         />
                     </Typography>
                 </StyledBlock>
@@ -82,6 +83,7 @@ const About = () => {
                         <img
                             src={`${process.env.PUBLIC_URL}/image/dialog_color.jpg`}
                             width="300px"
+                            alt=""
                         />
                     </Typography>
                 </StyledBlock>
@@ -96,6 +98,7 @@ const About = () => {
                         <img
                             src={`${process.env.PUBLIC_URL}/image/yes_no_answer.jpg`}
                             width="300px"
+                            alt=""
                         />
                     </Typography>
                 </StyledBlock>
@@ -116,6 +119,7 @@ const About = () => {
                         <img
                             src={`${process.env.PUBLIC_URL}/image/notation_button.jpg`}
                             width="300px"
+                            alt=""
                         />
                     </Typography>
                 </StyledBlock>
@@ -131,6 +135,7 @@ const About = () => {
                         <img
                             src={`${process.env.PUBLIC_URL}/image/finish_solve.jpg`}
                             width="300px"
+                            alt=""
                         />
                     </Typography>
                 </StyledBlock>
@@ -144,6 +149,7 @@ const About = () => {
                         <img
                             src={`${process.env.PUBLIC_URL}/image/dialog_success.jpg`}
                             width="300px"
+                            alt=""
                         />
                     </Typography>
                 </StyledBlock>
@@ -157,6 +163,7 @@ const About = () => {
                         <img
                             src={`${process.env.PUBLIC_URL}/image/result_ranking.jpg`}
                             width="300px"
+                            alt=""
                         />
                     </Typography>
                 </StyledBlock>

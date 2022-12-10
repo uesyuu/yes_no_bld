@@ -22,17 +22,17 @@ const Results = () => {
 
     const navigate = useNavigate()
 
-    const StyledContainer = styled(Box)(({theme}) => ({
+    const StyledContainer = styled(Box)(() => ({
         margin: '0 auto',
         padding: '20px',
         maxWidth: '500px'
     }))
 
-    const StyledTableContainer = styled(TableContainer)(({theme}) => ({
+    const StyledTableContainer = styled(TableContainer)(() => ({
         width: '300px'
     }))
 
-    const StyledTab = styled(Tab)(({theme}) => ({
+    const StyledTab = styled(Tab)(() => ({
         minWidth: '50px'
     }))
 
