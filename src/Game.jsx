@@ -243,8 +243,8 @@ const Game = (props) => {
                     </Box>
                     <InputDisplay>{solutionListToStringWithNewLine(mySolutionList)}</InputDisplay>
 
-                    <Typography>スクランブル: {scramble}</Typography>
-                    <Typography>faceletList: {faceletList.join("")}</Typography>
+                    {/*<Typography>スクランブル: {scramble}</Typography>*/}
+                    {/*<Typography>faceletList: {faceletList.join("")}</Typography>*/}
 
                     <Box display={"flex"} justifyContent={"center"}>
                         <StyledButton variant='contained' color='success' width='120px'
